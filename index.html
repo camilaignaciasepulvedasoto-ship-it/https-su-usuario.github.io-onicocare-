@@ -128,7 +128,7 @@ const iso=d=>{const x=new Date(d);return x.getFullYear()+"-"+String(x.getMonth()
 const today=iso(Date.now()),dnum=s=>Math.round(new Date(s+"T00:00:00")/864e5);
 function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1800)}
 // navegación
-const VIEWS=["inicio","registro","respirar","impulsos","aprende"];
+const VIEWS=["inicio","registro","respirar","impulsos","aprende","asistente"];
 function go(v){if(!VIEWS.includes(v))v="inicio";VIEWS.forEach(x=>$("#"+x).hidden=x!==v);$$("nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.go===v)||b.removeAttribute("aria-current"));$$("nav button").forEach(b=>{if(b.dataset.go===v)b.setAttribute("aria-current","page")});if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);window.scrollTo(0,0);if(v==="registro"){paint();renderPhotos()}}
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)go(g.dataset.go)});
 addEventListener("hashchange",()=>go(location.hash.slice(1)));
