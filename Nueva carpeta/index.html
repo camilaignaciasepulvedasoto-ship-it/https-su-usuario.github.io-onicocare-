@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OnicoCare · Mi proceso</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#d9627f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff8f9;--card:#fff;--tx:#1f2a44;--mut:#5b6b7f;--ac:#d9627f;--ac2:#1f3a5f;--ok:#4f9c88;--warn:#f1b24a;--bd:#f0d5db;--soft:#fbe9ed;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a28;--card:#1d2536;--tx:#eef1f7;--mut:#a3aec2;--ac:#ee86a0;--ac2:#9db8e0;--ok:#6cc0aa;--warn:#f1b24a;--bd:#33405a;--soft:#2a2f45;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141a28;--card:#1d2536;--tx:#eef1f7;--mut:#a3aec2;--ac:#ee86a0;--ac2:#9db8e0;--ok:#6cc0aa;--warn:#f1b24a;--bd:#33405a;--soft:#2a2f45;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px 16px 96px}
+h1{font-size:22px;margin:0}h2{font-size:18px;margin:0 0 8px}p{margin:0 0 10px}.mut{color:var(--mut);font-size:14px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:14px}.logo{width:42px;height:42px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:22px;border:2px solid var(--ac2)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:14px}
+.warn{background:var(--soft);border-left:4px solid var(--ac);font-size:14px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;max-width:110px;background:none;border:0;color:var(--mut);font:inherit;font-size:12px;padding:6px 2px;border-radius:10px;cursor:pointer}
+nav button b{display:block;font-size:20px;font-weight:400}nav button[aria-current="page"]{color:var(--ac);background:var(--soft)}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:600;cursor:pointer;min-height:44px}
+.btn.alt{background:var(--soft);color:var(--tx)}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+label{display:block;font-weight:600;margin:12px 0 6px;font-size:15px}
+input[type=date],select,textarea{width:100%;font:inherit;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+.step{display:flex;align-items:center;gap:14px}.step button{width:48px;height:48px;border-radius:50%;border:1px solid var(--bd);background:var(--soft);color:var(--tx);font-size:24px;cursor:pointer}.step output{font-size:34px;font-weight:700;min-width:48px;text-align:center}
+.moods button{flex:1;font-size:24px;padding:8px 0;border-radius:12px;border:2px solid var(--bd);background:var(--bg);cursor:pointer}.moods button[aria-pressed="true"]{border-color:var(--ac);background:var(--soft)}
+.chk{display:flex;gap:8px;align-items:center;font-weight:400;margin:6px 0}.chk input{width:20px;height:20px}
+.cal{display:grid;grid-template-columns:auto repeat(7,1fr);gap:4px;font-size:12px;align-items:center}.cal i{aspect-ratio:1;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-style:normal;color:var(--mut)}
+.cal i.z{background:var(--ok);color:#fff}.cal i.l{background:var(--warn);color:#2b2b2b}.cal i.t{outline:2px solid var(--ac2)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{background:var(--soft);border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:24px}
+.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{background:var(--soft);border-radius:20px;padding:4px 10px;font-size:13px}.badge.off{opacity:.45}
+.breath{height:230px;display:grid;place-items:center}.orb{width:120px;height:120px;border-radius:50%;background:var(--ac);opacity:.85;display:grid;place-items:center;color:#fff;font-weight:700;transition:transform 4s ease-in-out}
+details{border-top:1px solid var(--bd);padding:10px 0}summary{font-weight:600;cursor:pointer}ol,ul{padding-left:20px;margin:8px 0}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ac2);color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;z-index:9;opacity:0;pointer-events:none;transition:opacity .2s}.toast.on{opacity:1}
+textarea.sum{height:120px;font-size:13px}
+section[hidden]{display:none}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}.th{border:0;padding:0;background:var(--soft);border-radius:10px;overflow:hidden;cursor:pointer;color:var(--tx);font-size:12px}.th img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;font-size:13px;text-align:center}.cmp img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+dialog{border:0;border-radius:16px;padding:12px;max-width:92vw;background:var(--card);color:var(--tx)}dialog img{max-width:100%;max-height:60vh;display:block;margin:0 auto 10px;border-radius:10px}dialog::backdrop{background:#0008}
+@media (prefers-reduced-motion:reduce){.orb{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="logo" aria-hidden="true">💗</div><div><h1>OnicoCare</h1><div class="mut">Observa · Orienta · Deriva</div></div></header>
+
+<section id="inicio">
+ <div class="card"><h2>Hola, bienvenida/o a tu proceso</h2>
+  <p>Aquí registras tus avances, practicas ejercicios y encuentras ayuda cuando sientes el impulso de morderte las uñas. Cada pequeño paso cuenta.</p>
+  <div class="row"><button class="btn" data-go="registro">Registrar hoy</button><button class="btn alt" data-go="impulsos">Siento el impulso</button></div></div>
+ <div class="card"><h2>Frase del día</h2><p id="frase"></p><button class="btn alt" id="otra">Otra frase</button></div>
+ <div class="card"><h2>Mis logros</h2><div class="badges" id="badges"></div></div>
+ <div class="card warn"><b>Importante:</b> OnicoCare es un acompañamiento educativo y cosmético. No diagnostica ni trata. Si tienes heridas, enrojecimiento, pus o dolor, consulta a un profesional de la salud. Tu registro se guarda solo en este dispositivo.</div>
+</section>
+
+<section id="registro" hidden>
+ <div class="card"><h2>Registro de hoy</h2>
+  <label for="fecha">Fecha</label><input type="date" id="fecha">
+  <label>¿Cuántas veces te mordiste las uñas?</label>
+  <div class="step"><button id="menos" aria-label="Restar">−</button><output id="n">0</output><button id="mas" aria-label="Sumar">+</button></div>
+  <label>¿Cómo te sentiste?</label>
+  <div class="row moods" id="moods" role="group" aria-label="Estado de ánimo"></div>
+  <label for="trig">¿Qué lo gatilló más?</label>
+  <select id="trig"><option value="">—</option><option>Estrés</option><option>Ansiedad</option><option>Aburrimiento</option><option>Concentración</option><option>Sin darme cuenta</option><option>Otro</option></select>
+  <label>¿Qué herramienta usaste?</label>
+  <label class="chk"><input type="checkbox" value="Respiración"> Respiración</label>
+  <label class="chk"><input type="checkbox" value="Objeto antiestrés"> Objeto sensorial antiestrés</label>
+  <label class="chk"><input type="checkbox" value="Ejercicio de impulsos"> Ejercicio para controlar impulsos</label>
+  <label for="nota">Nota (opcional)</label><textarea id="nota" rows="2"></textarea>
+  <p></p><button class="btn" id="guardar">Guardar registro</button></div>
+ <div class="card"><h2>Mi progreso</h2>
+  <div class="stats"><div class="stat"><b id="s1">–</b>días registrados</div><div class="stat"><b id="s2">–</b>cambio vs. semana 1</div></div>
+  <p class="mut" id="meta"></p>
+  <svg id="chart" viewBox="0 0 320 120" width="100%" role="img" aria-label="Episodios de los últimos 14 días"></svg>
+  <div class="mut">Episodios por día, últimos 14 días</div></div>
+ <div class="card"><h2>Calendario de seguimiento</h2><div class="cal" id="cal"></div>
+  <p class="mut">Verde: día sin morderse · Amarillo: con episodios · Borde: hoy</p></div>
+ <div class="card"><h2>Fotos de mis uñas</h2><p class="mut">Toma una foto de tus uñas para ver tu avance. Se guarda en la fecha elegida arriba, solo en este dispositivo. Fotografía solo tus manos y evita mostrar tu rostro.</p>
+  <button class="btn" id="fotobtn">📷 Tomar o subir foto</button><input type="file" id="foto" accept="image/*" hidden>
+  <div class="gal" id="galeria"></div><div class="cmp" id="comp"></div></div>
+ <div class="card"><h2>Compartir con mi equipo</h2><p class="mut">Copia tu resumen y envíalo a quien te acompaña en el piloto.</p>
+  <textarea class="sum" id="resumen" readonly aria-label="Resumen"></textarea><p></p><button class="btn alt" id="copiar">Copiar resumen</button></div>
+</section>
+
+<section id="respirar" hidden>
+ <div class="card"><h2>Respiración guiada</h2><p class="mut">Inhala 4 s · Sostén 4 s · Exhala 6 s. Repite 5 veces.</p>
+  <div class="breath"><div class="orb" id="orb">Listo</div></div>
+  <div class="row"><button class="btn" id="rstart">Comenzar</button></div></div>
+</section>
+
+<section id="impulsos" hidden>
+ <div class="card"><h2>Siento el impulso</h2>
+  <ol><li><b>Nómbralo:</b> “Estoy sintiendo ganas de morderme las uñas”.</li><li><b>Espera:</b> el impulso sube y baja. Aguanta unos minutos.</li><li><b>Reemplaza:</b> toma tu objeto sensorial y respira profundo.</li></ol>
+  <output id="tmr" style="font-size:44px;font-weight:700;display:block;text-align:center">10:00</output>
+  <div class="row" style="justify-content:center"><button class="btn" id="tstart">Iniciar 10 min</button><button class="btn alt" id="treset">Reiniciar</button></div></div>
+ <div class="card"><h2>Mi plan “si… entonces…”</h2><label for="plan">Si siento ____, entonces voy a ____</label><textarea id="plan" rows="3" placeholder="Si estoy estudiando y me da ansiedad, entonces tomo mi objeto sensorial."></textarea></div>
+</section>
+
+<section id="aprende" hidden>
+ <div class="card"><h2>Autocuidado</h2>
+  <details open><summary>Cuidado diario de uñas y cutículas</summary><ol><li>Lava tus manos con agua tibia y jabón suave.</li><li>Lima los bordes en una sola dirección, sin tironear.</li><li>Aplica aceite de cutículas y masajea 30 segundos.</li><li>Hidrata tus manos antes de dormir.</li></ol></details>
+  <details><summary>¿Cuándo consultar a un profesional?</summary><ul><li>Enrojecimiento, hinchazón o calor alrededor de la uña.</li><li>Pus, mal olor o dolor que no pasa.</li><li>Cambios de color o forma persistentes.</li><li>Cuando sientes que no puedes controlar el hábito o te genera mucha angustia.</li></ul></details></div>
+ <div class="card"><h2>Videos breves</h2><div id="videos"></div></div>
+</section>
+</main>
+<nav id="nav">
+ <button data-go="inicio"><b>🏠</b>Inicio</button><button data-go="registro"><b>📝</b>Registro</button><button data-go="respirar"><b>🌬️</b>Respirar</button><button data-go="impulsos"><b>✋</b>Impulso</button><button data-go="aprende"><b>📚</b>Aprende</button>
+</nav>
+<dialog id="dlg"><img id="dimg" alt="Foto de uñas"><p class="mut" id="dfecha"></p><div class="row"><button class="btn alt" id="dshare">Compartir</button><button class="btn alt" id="ddel">Eliminar</button><button class="btn" id="dclose">Cerrar</button></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const VIDEOS=[{t:"¿Qué es la onicofagia?",u:""},{t:"Cómo cuidar tus cutículas",u:""},{t:"Ejercicios para controlar el impulso",u:""}]; // pega aquí enlaces https://
+const FRASES=["Cada día que lo intentas ya es un avance.","No estás sola/o: muchas personas están en el mismo camino.","Un impulso dura minutos; tú eres más fuerte que un impulso.","Celebra los pequeños triunfos.","Tus manos merecen cuidado, no castigo.","Un tropiezo no borra tu progreso.","Respira. Ya lo estás haciendo bien."];
+const MOODS=["😞","🙁","😐","🙂","😊"];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let mem={};
+const load=()=>{try{const v=localStorage.getItem("onicocare");return v?JSON.parse(v):mem}catch(e){return mem}};
+const save=v=>{mem=v;try{localStorage.setItem("onicocare",JSON.stringify(v))}catch(e){}};
+let D=load();D.days=D.days||{};
+const iso=d=>{const x=new Date(d);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
+const today=iso(Date.now()),dnum=s=>Math.round(new Date(s+"T00:00:00")/864e5);
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1800)}
+// navegación
+const VIEWS=["inicio","registro","respirar","impulsos","aprende"];
+function go(v){if(!VIEWS.includes(v))v="inicio";VIEWS.forEach(x=>$("#"+x).hidden=x!==v);$$("nav button").forEach(b=>b.toggleAttribute("aria-current",b.dataset.go===v)||b.removeAttribute("aria-current"));$$("nav button").forEach(b=>{if(b.dataset.go===v)b.setAttribute("aria-current","page")});if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);window.scrollTo(0,0);if(v==="registro"){paint();renderPhotos()}}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)go(g.dataset.go)});
+addEventListener("hashchange",()=>go(location.hash.slice(1)));
+// frases
+let fi=Math.floor(Math.random()*FRASES.length);const frase=()=>{$("#frase").textContent="“"+FRASES[fi%FRASES.length]+"”"};frase();$("#otra").onclick=()=>{fi++;frase()};
+// formulario
+const fecha=$("#fecha");fecha.value=today;fecha.max=today;
+MOODS.forEach((m,i)=>{const b=document.createElement("button");b.textContent=m;b.setAttribute("aria-pressed","false");b.setAttribute("aria-label","Ánimo "+(i+1));b.dataset.v=i+1;$("#moods").append(b)});
+let cur={n:0,mood:0};
+function fill(){const r=D.days[fecha.value]||{n:0,mood:0,trig:"",ex:[],note:""};cur={n:r.n,mood:r.mood};$("#n").textContent=r.n;$("#trig").value=r.trig||"";$("#nota").value=r.note||"";$$("#moods button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.v===r.mood)));$$("#registro .chk input").forEach(c=>c.checked=(r.ex||[]).includes(c.value))}
+fecha.onchange=fill;
+$("#mas").onclick=()=>{cur.n=Math.min(99,cur.n+1);$("#n").textContent=cur.n};$("#menos").onclick=()=>{cur.n=Math.max(0,cur.n-1);$("#n").textContent=cur.n};
+$("#moods").onclick=e=>{const b=e.target.closest("button");if(!b)return;cur.mood=+b.dataset.v;$$("#moods button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)))};
+$("#guardar").onclick=()=>{if(!fecha.value)return;D.days[fecha.value]={n:cur.n,mood:cur.mood,trig:$("#trig").value,ex:$$("#registro .chk input:checked").map(c=>c.value),note:$("#nota").value.trim().slice(0,300)};save(D);toast("Registro guardado ✓");paint()};
+// estadísticas
+function info(){const k=Object.keys(D.days).sort();if(!k.length)return null;const s=dnum(k[0]);const wk=d=>Math.floor((dnum(d)-s)/7);const by={};k.forEach(d=>{(by[wk(d)]=by[wk(d)]||[]).push(D.days[d].n)});const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;const ws=Object.keys(by).map(Number).sort((a,b)=>a-b);const base=avg(by[ws[0]]);const last=ws.length>1?avg(by[ws[ws.length-1]]):null;const red=last!==null&&base>0?Math.round((1-last/base)*100):null;return{k,s,base,last,red,ws}}
+function paint(){const I=info();$("#s1").textContent=I?I.k.length:"–";$("#s2").textContent=I&&I.red!==null?(I.red>=0?"−":"+")+Math.abs(I.red)+" %":"–";
+ $("#meta").textContent=I?(I.red===null?"Sigue registrando: la semana 1 es tu punto de partida.":I.red>=30?"¡Meta alcanzada! Reduciste 30 % o más.":"Meta del piloto: reducir 30 % o más tus episodios."):"Empieza hoy: tu primera semana será tu punto de partida.";
+ const c=$("#chart");c.textContent="";const days=[];for(let i=13;i>=0;i--)days.push(iso(Date.now()-i*864e5));const mx=Math.max(3,...days.map(d=>(D.days[d]||{n:0}).n));const ns="http://www.w3.org/2000/svg";
+ days.forEach((d,i)=>{const r=D.days[d];const h=r?Math.max(2,r.n/mx*90):0;const x=6+i*22.4;if(r){const e=document.createElementNS(ns,"rect");e.setAttribute("x",x);e.setAttribute("y",100-h);e.setAttribute("width",16);e.setAttribute("height",h);e.setAttribute("rx",4);e.setAttribute("fill",r.n===0?"#4f9c88":"#d9627f");c.append(e);const t=document.createElementNS(ns,"text");t.setAttribute("x",x+8);t.setAttribute("y",96-h);t.setAttribute("text-anchor","middle");t.setAttribute("font-size","9");t.setAttribute("fill","currentColor");t.textContent=r.n;c.append(t)}
+  if(i%2===0){const t=document.createElementNS(ns,"text");t.setAttribute("x",x+8);t.setAttribute("y",116);t.setAttribute("text-anchor","middle");t.setAttribute("font-size","8");t.setAttribute("fill","currentColor");t.textContent=d.slice(8)+"/"+d.slice(5,7);c.append(t)}});
+ const cal=$("#cal");cal.textContent="";const s=I?I.s:dnum(today);for(let w=0;w<6;w++){const l=document.createElement("span");l.textContent="S"+(w+1);cal.append(l);for(let j=0;j<7;j++){const dn=s+w*7+j,d=iso(dn*864e5+12*36e5),r=D.days[d],i=document.createElement("i");i.textContent=r?(r.n===0?"✓":r.n):"";if(r)i.className=r.n===0?"z":"l";if(d===today)i.classList.add("t");i.title=d;cal.append(i)}}
+ $("#resumen").value=I?"Resumen OnicoCare\nDías registrados: "+I.k.length+"\nPromedio semana 1: "+I.base.toFixed(1)+" episodios/día"+(I.last!==null?"\nPromedio última semana: "+I.last.toFixed(1)+" episodios/día\nCambio: "+(I.red!==null?(I.red>=0?"−":"+")+Math.abs(I.red)+" %":"–"):"")+"\nÚltimos registros:\n"+I.k.slice(-7).map(d=>d+": "+D.days[d].n+" episodios"+(D.days[d].trig?" ("+D.days[d].trig+")":"")).join("\n"):"Aún no hay registros.";
+ const B=[["Primer registro",I&&I.k.length>=1],["3 días seguidos",I&&streak(I.k)>=3],["Un día sin morderme",I&&I.k.some(d=>D.days[d].n===0)],["Semana completa",I&&I.k.length>=7],["Meta −30 %",I&&I.red!==null&&I.red>=30]];
+ $("#badges").textContent="";B.forEach(([t,o])=>{const b=document.createElement("span");b.className="badge"+(o?"":" off");b.textContent=(o?"🏅 ":"🔒 ")+t;$("#badges").append(b)})}
+function streak(k){let m=1,c=1;for(let i=1;i<k.length;i++){c=dnum(k[i])-dnum(k[i-1])===1?c+1:1;m=Math.max(m,c)}return m}
+$("#copiar").onclick=async()=>{const t=$("#resumen").value;try{await navigator.clipboard.writeText(t);toast("Resumen copiado ✓")}catch(e){$("#resumen").select();toast("Selecciona y copia el texto")}};
+// respiración
+let rt=null;const orb=$("#orb");
+function stopB(){clearTimeout(rt);rt=null;orb.style.transform="scale(1)";orb.textContent="Listo";$("#rstart").textContent="Comenzar"}
+$("#rstart").onclick=()=>{if(rt){stopB();return}$("#rstart").textContent="Detener";let c=0;const ph=[["Inhala",4,1.5],["Sostén",4,1.5],["Exhala",6,1]];let i=0;(function step(){if(c>=5){stopB();toast("¡Muy bien! 5 ciclos ✓");return}const[p,s,sc]=ph[i];orb.textContent=p;orb.style.transitionDuration=s+"s";orb.style.transform="scale("+sc+")";rt=setTimeout(()=>{i++;if(i>2){i=0;c++}step()},s*1000)})()};
+// temporizador
+let tt=null,left=600;const fmt=()=>$("#tmr").textContent=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+$("#tstart").onclick=()=>{if(tt){clearInterval(tt);tt=null;$("#tstart").textContent="Seguir";return}$("#tstart").textContent="Pausar";tt=setInterval(()=>{left--;fmt();if(left<=0){clearInterval(tt);tt=null;$("#tstart").textContent="Iniciar 10 min";left=600;fmt();toast("¡Lo lograste! El impulso bajó 💪")}},1000)};
+$("#treset").onclick=()=>{clearInterval(tt);tt=null;left=600;fmt();$("#tstart").textContent="Iniciar 10 min"};
+const plan=$("#plan");plan.value=D.plan||"";plan.oninput=()=>{D.plan=plan.value.slice(0,300);save(D)};
+// videos
+VIDEOS.forEach(v=>{const p=document.createElement("p");if(/^https:\/\//.test(v.u)){const a=document.createElement("a");a.href=v.u;a.target="_blank";a.rel="noopener";a.textContent="▶ "+v.t;p.append(a)}else{p.textContent="▶ "+v.t+" (próximamente)";p.className="mut"}$("#videos").append(p)});
+// fotos (IndexedDB, solo en este dispositivo)
+const idb=()=>new Promise((res,rej)=>{try{const r=indexedDB.open("onicocare-fotos",1);r.onupgradeneeded=()=>r.result.createObjectStore("f",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});
+const tx=async(mode,fn)=>{const d=await idb();return new Promise((res,rej)=>{const t=d.transaction("f",mode),q=fn(t.objectStore("f"));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error)})};
+const shrink=file=>new Promise((res,rej)=>{const i=new Image(),u=URL.createObjectURL(file);i.onload=()=>{const k=Math.min(1,900/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*k);c.height=Math.round(i.height*k);c.getContext("2d").drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL("image/jpeg",.8))};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("img"))};i.src=u});
+$("#fotobtn").onclick=()=>$("#foto").click();
+$("#foto").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)return;try{const img=await shrink(f),d=fecha.value||today;await tx("readwrite",s=>s.put({id:d+"-"+Date.now(),date:d,img}));toast("Foto guardada ✓");renderPhotos()}catch(err){toast("No se pudo guardar la foto")}};
+async function renderPhotos(){const g=$("#galeria"),c=$("#comp");let L=[];try{L=(await tx("readonly",s=>s.getAll()))||[]}catch(e){g.textContent="Este navegador no permite guardar fotos.";return}
+ L.sort((a,b)=>a.id<b.id?-1:1);g.textContent="";c.textContent="";if(!L.length){g.textContent="Aún no hay fotos.";g.className="mut";return}g.className="gal";
+ const mk=p=>{const im=new Image();im.src=p.img;im.alt="Foto "+p.date;return im};
+ L.forEach(p=>{const b=document.createElement("button"),s=document.createElement("span");b.className="th";s.textContent=p.date.slice(8)+"/"+p.date.slice(5,7);b.append(mk(p),s);b.onclick=()=>view(p);g.append(b)});
+ if(L.length>1)[["Primera: ",L[0]],["Última: ",L[L.length-1]]].forEach(([t,p])=>{const f=document.createElement("div"),s=document.createElement("div");s.textContent=t+p.date;f.append(mk(p),s);c.append(f)})}
+let cp=null;
+function view(p){cp=p;$("#dimg").src=p.img;$("#dfecha").textContent="Foto del "+p.date;$("#ddel").textContent="Eliminar";$("#dshare").hidden=!navigator.share;$("#dlg").showModal()}
+$("#dclose").onclick=()=>$("#dlg").close();
+$("#ddel").onclick=async()=>{if($("#ddel").textContent==="Eliminar"){$("#ddel").textContent="¿Seguro? Toca de nuevo";return}try{await tx("readwrite",s=>s.delete(cp.id))}catch(e){}$("#dlg").close();renderPhotos();toast("Foto eliminada")};
+$("#dshare").onclick=async()=>{try{const b=atob(cp.img.split(",")[1]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);const f=new File([a],"onicocare-"+cp.date+".jpg",{type:"image/jpeg"});if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:"Mi avance OnicoCare"});else toast("Tu dispositivo no permite compartir fotos")}catch(e){}};
+fill();paint();go(location.hash.slice(1));
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
