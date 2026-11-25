@@ -1,0 +1,22 @@
+OnicoCare PWA: cómo publicarla gratis
+
+OPCIÓN A (la más rápida): Netlify Drop
+1. Descomprime este ZIP: debe quedar una carpeta con index.html, sw.js, manifest.webmanifest e íconos.
+2. Entra a https://app.netlify.com/drop (crea una cuenta gratuita si te la pide).
+3. Arrastra la carpeta completa a la página. En segundos te entrega un enlace https://...netlify.app
+4. Abre ese enlace en tu celular y pruébalo. Envíamelo para generar el QR definitivo.
+
+OPCIÓN B: GitHub Pages
+1. Crea una cuenta gratuita en https://github.com y un repositorio público nuevo (ej.: onicocare).
+2. Sube TODOS los archivos de la carpeta (Add file > Upload files).
+3. Settings > Pages > Source: "Deploy from a branch" > Branch: main > carpeta /(root) > Save.
+4. A los 1-2 minutos tu enlace será https://TU-USUARIO.github.io/onicocare/
+
+INSTALAR EN EL CELULAR
+- Android (Chrome): menú ⋮ > "Instalar app".
+- iPhone (Safari): Compartir > "Agregar a inicio".
+
+IMPORTANTE
+- Los registros y las fotos se guardan solo en el celular de cada persona.
+- Si actualizas index.html, cambia V="onicocare-v1" en sw.js a "onicocare-v2" para que los celulares reciban la versión nueva.
+- Los enlaces de videos se editan al inicio del script de index.html (lista VIDEOS).
