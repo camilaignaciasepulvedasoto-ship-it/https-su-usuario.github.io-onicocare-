@@ -1,0 +1,19 @@
+{
+  "name": "OnicoCare · Mi proceso",
+  "short_name": "OnicoCare",
+  "description": "Acompañamiento educativo para registrar avances y practicar autocuidado.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff8f9",
+  "theme_color": "#fff8f9",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
