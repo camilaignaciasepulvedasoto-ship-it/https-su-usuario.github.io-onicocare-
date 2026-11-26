@@ -48,6 +48,18 @@ dialog{border:0;border-radius:16px;padding:12px;max-width:92vw;background:var(--
 </style>
 </head>
 <body>
+ <section id="asistente" hidden>
+  <div class="card">
+    <h2>Asistente OnicoCare</h2>
+    <p class="mut">Respuestas orientativas; no reemplazan la atención de un profesional de la salud.</p>
+    <div class="chat" id="chat" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <div class="ask">
+      <input id="q" maxlength="200" placeholder="Escribe tu pregunta…" aria-label="Tu pregunta">
+      <button class="btn" id="enviar">Enviar</button>
+    </div>
+  </div>
+</section>
 <main>
 <header><div class="logo" aria-hidden="true">💗</div><div><h1>OnicoCare</h1><div class="mut">Observa · Orienta · Deriva</div></div></header>
 
@@ -112,6 +124,7 @@ dialog{border:0;border-radius:16px;padding:12px;max-width:92vw;background:var(--
 </main>
 <nav id="nav">
  <button data-go="inicio"><b>🏠</b>Inicio</button><button data-go="registro"><b>📝</b>Registro</button><button data-go="respirar"><b>🌬️</b>Respirar</button><button data-go="impulsos"><b>✋</b>Impulso</button><button data-go="aprende"><b>📚</b>Aprende</button>
+<button data-go="asistente"><b>💬</b>Asistente</button>
 </nav>
 <dialog id="dlg"><img id="dimg" alt="Foto de uñas"><p class="mut" id="dfecha"></p><div class="row"><button class="btn alt" id="dshare">Compartir</button><button class="btn alt" id="ddel">Eliminar</button><button class="btn" id="dclose">Cerrar</button></div></dialog>
 <div class="toast" id="toast" role="status"></div>
@@ -185,6 +198,109 @@ $("#ddel").onclick=async()=>{if($("#ddel").textContent==="Eliminar"){$("#ddel").
 $("#dshare").onclick=async()=>{try{const b=atob(cp.img.split(",")[1]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);const f=new File([a],"onicocare-"+cp.date+".jpg",{type:"image/jpeg"});if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:"Mi avance OnicoCare"});else toast("Tu dispositivo no permite compartir fotos")}catch(e){}};
 fill();paint();go(location.hash.slice(1));
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+const preguntasFAQ = [
+  {
+    pregunta: "¿Qué es la onicofagia?",
+    palabras: ["onicofagia", "qué es", "que es"],
+    respuesta: "La onicofagia es el hábito de morderse las uñas. Puede aparecer de forma automática, por ejemplo, en momentos de estrés o aburrimiento."
+  },
+  {
+    pregunta: "¿Cómo manejo el impulso?",
+    palabras: ["impulso", "ganas", "controlar"],
+    respuesta: "Nombra el impulso, respira con calma y prueba usar tu objeto sensorial. También puedes visitar la sección Impulso.",
+    irA: "impulsos"
+  },
+  {
+    pregunta: "Tengo una herida o dolor",
+    palabras: ["herida", "dolor", "pus", "hinchazón", "sangrado"],
+    respuesta: "Si tienes dolor, enrojecimiento, hinchazón, pus o sangrado, consulta a un profesional de la salud."
+  },
+  {
+    pregunta: "¿Cómo registro mis avances?",
+    palabras: ["registro", "progreso", "avances"],
+    respuesta: "En Registro puedes anotar tus episodios, cómo te sentiste y qué herramienta usaste.",
+    irA: "registro"
+  },
+  {
+    pregunta: "¿Qué es OnicoCare?",
+    palabras: ["onicocare", "proyecto"],
+    respuesta: "OnicoCare ofrece acompañamiento educativo y cosmético. No diagnostica ni reemplaza la evaluación de un profesional."
+  }
+];
+
+const chat = document.querySelector("#chat");
+const campoPregunta = document.querySelector("#q");
+
+function mostrarMensaje(texto, tipo, destino) {
+  const mensaje = document.createElement("div");
+  mensaje.className = "msg " + tipo;
+  mensaje.textContent = texto;
+
+  if (destino) {
+    const boton = document.createElement("button");
+    boton.className = "btn alt";
+    boton.textContent = "Ir a la sección";
+    boton.style.marginTop = "8px";
+    boton.onclick = () => go(destino);
+    mensaje.append(document.createElement("br"), boton);
+  }
+
+  chat.append(mensaje);
+  chat.scrollTop = chat.scrollHeight;
+  return mensaje;
+}
+
+function responderPregunta(texto) {
+  const pregunta = texto.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  const coincidencia = preguntasFAQ.find(item =>
+    item.palabras.some(palabra =>
+      pregunta.includes(
+        palabra.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      )
+    )
+  );
+
+  if (coincidencia) {
+    mostrarMensaje(coincidencia.respuesta, "b", coincidencia.irA);
+  } else {
+    mostrarMensaje(
+      "No tengo una respuesta segura para eso. Prueba una de las preguntas sugeridas o consulta a un profesional de la salud.",
+      "b"
+    );
+  }
+}
+
+function enviarPregunta() {
+  const texto = campoPregunta.value.trim();
+  if (!texto) return;
+
+  mostrarMensaje(texto, "u");
+  campoPregunta.value = "";
+  responderPregunta(texto);
+}
+
+document.querySelector("#enviar").onclick = enviarPregunta;
+campoPregunta.onkeydown = evento => {
+  if (evento.key === "Enter") enviarPregunta();
+};
+
+preguntasFAQ.forEach(item => {
+  const boton = document.createElement("button");
+  boton.textContent = item.pregunta;
+  boton.onclick = () => {
+    campoPregunta.value = item.pregunta;
+    enviarPregunta();
+  };
+  document.querySelector("#chips").append(boton);
+});
+
+mostrarMensaje(
+  "Hola, soy el asistente de OnicoCare. Puedo responder algunas preguntas frecuentes.",
+  "b"
+);
 </script>
 </body>
 </html>
