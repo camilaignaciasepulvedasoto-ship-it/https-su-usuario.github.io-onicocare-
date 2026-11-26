@@ -61,6 +61,45 @@ dialog{border:0;border-radius:16px;padding:12px;max-width:92vw;background:var(--
   </div>
 </section>
 <main>
+ <section>
+  <h2>Asistente de autocuidado</h2>
+  <p>Escribe una pregunta sobre la onicofagia y el autocuidado.</p>
+
+  <label for="pregunta">Tu pregunta:</label>
+  <input id="pregunta" type="text" placeholder="Por ejemplo: ¿qué hago si siento ganas?" />
+
+  <button type="button" onclick="responder()">Enviar</button>
+
+  <p id="respuesta" aria-live="polite"></p>
+</section>
+
+<script>
+  function responder() {
+    const pregunta = document
+      .getElementById("pregunta")
+      .value
+      .toLowerCase()
+      .trim();
+
+    const respuesta = document.getElementById("respuesta");
+
+    if (pregunta.includes("ganas") || pregunta.includes("impulso")) {
+      respuesta.textContent =
+        "Prueba detenerte un momento, respirar lentamente y hacer una actividad con las manos. Si te sirve, registra qué sentías justo antes.";
+    } else if (pregunta.includes("respirar") || pregunta.includes("ansiedad")) {
+      respuesta.textContent =
+        "Prueba inhalar suavemente por la nariz y exhalar despacio. Repite varias veces, sin forzar la respiración.";
+    } else if (pregunta.includes("avance") || pregunta.includes("progreso")) {
+      respuesta.textContent =
+        "Puedes registrar tus avances con notas o fotos. Recuerda que cada proceso es distinto y que los cambios pequeños también cuentan.";
+    } else if (pregunta === "") {
+      respuesta.textContent = "Escribe una pregunta antes de enviar.";
+    } else {
+      respuesta.textContent =
+        "No tengo una respuesta para esa pregunta todavía. Puedes intentar preguntar sobre impulsos, respiración o cómo registrar tus avances.";
+    }
+  }
+</script>
 <header><div class="logo" aria-hidden="true">💗</div><div><h1>OnicoCare</h1><div class="mut">Observa · Orienta · Deriva</div></div></header>
 
 <section id="inicio">
@@ -224,9 +263,7 @@ const preguntasFAQ = [
   {
     pregunta: "¿Qué es OnicoCare?",
     palabras: ["onicocare", "proyecto"],
-    respuesta: "OnicoCare ofrece acompañamiento educativo y cosmético. No diagnostica ni reemplaza la evaluación de un profesional."
-  }
-];
+    respuesta: "OnicoCare ofrece acompañamiento educativo y cosmético. No diagnostica ni reemplaza la evaluación de un profesional."}];
 
 const chat = document.querySelector("#chat");
 const campoPregunta = document.querySelector("#q");
@@ -301,6 +338,33 @@ mostrarMensaje(
   "Hola, soy el asistente de OnicoCare. Puedo responder algunas preguntas frecuentes.",
   "b"
 );
+</script>
+ <script>
+  const campoPregunta = document.getElementById("pregunta");
+  const botonEnviar = document.getElementById("enviar");
+  const espacioRespuesta = document.getElementById("respuesta");
+
+  botonEnviar.addEventListener("click", responder);
+
+  function responder() {
+    const pregunta = campoPregunta.value.toLowerCase().trim();
+
+    if (pregunta === "") {
+      espacioRespuesta.textContent = "Escribe una pregunta antes de enviar.";
+    } else if (pregunta.includes("ganas") || pregunta.includes("impulso")) {
+      espacioRespuesta.textContent =
+        "Prueba detenerte un momento, respirar lentamente y hacer una actividad con las manos. Si te sirve, registra qué sentías justo antes.";
+    } else if (pregunta.includes("respirar") || pregunta.includes("ansiedad")) {
+      espacioRespuesta.textContent =
+        "Prueba inhalar suavemente por la nariz y exhalar despacio. Repite varias veces, sin forzar la respiración.";
+    } else if (pregunta.includes("avance") || pregunta.includes("progreso")) {
+      espacioRespuesta.textContent =
+        "Puedes registrar tus avances con notas o fotos. Los cambios pequeños también cuentan.";
+    } else {
+      espacioRespuesta.textContent =
+        "Todavía no tengo una respuesta para eso. Prueba preguntar sobre impulsos, respiración o avances.";
+    }
+  }
 </script>
 </body>
 </html>
